@@ -13,8 +13,9 @@ dist/
 .env.local
 .env.production
 
-# Uploaded files (runtime-generated)
-backend/uploads/*
+# Uploaded files (runtime-generated) — keep the directory but ignore actual uploads
+backend/uploads/**
+!backend/uploads/
 !backend/uploads/.gitkeep
 
 # OS / editor
