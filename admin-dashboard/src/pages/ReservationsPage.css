@@ -1,0 +1,86 @@
+/* ── Reservations Page ──────────────────────────────────────────────────── */
+.reservations-table-wrap {
+  overflow-x: auto;
+  border-radius: 12px;
+  border: 1px solid #ebebeb;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.reservations-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  font-size: 0.875rem;
+}
+
+.reservations-table th {
+  background: #fafafa;
+  padding: 14px 16px;
+  text-align: left;
+  font-weight: 600;
+  color: #717171;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  border-bottom: 1px solid #ebebeb;
+  white-space: nowrap;
+}
+
+.reservations-table td {
+  padding: 16px;
+  color: #222;
+  border-bottom: 1px solid #f5f5f5;
+  vertical-align: middle;
+}
+
+.reservations-table tr:last-child td { border-bottom: none; }
+.reservations-table tr:hover td { background: #fafafa; }
+
+.res-property {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.res-property strong { font-weight: 600; }
+.res-property span { font-size: 0.8rem; color: #717171; }
+
+/* Status badge */
+.status-badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+.status-badge--confirmed { background: #e8f5e9; color: #2e7d32; }
+.status-badge--pending   { background: #fff8e1; color: #f57f17; }
+.status-badge--cancelled { background: #fce4ec; color: #c62828; }
+
+/* Reuse shared page styles */
+.page-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 32px 24px;
+}
+.page-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+.page-title { font-size: 1.75rem; font-weight: 700; color: #222; margin: 0 0 4px; }
+.page-subtitle { font-size: 0.9rem; color: #717171; margin: 0; }
+
+.alert { display: flex; align-items: center; padding: 12px 16px; border-radius: 8px; font-size: 0.875rem; margin-bottom: 20px; }
+.alert--error { background: #fff0f0; border: 1px solid #ffcdd2; color: #c62828; }
+.alert--success { background: #f0fff4; border: 1px solid #c8e6c9; color: #2e7d32; }
+
+.empty-state { text-align: center; padding: 80px 24px; }
+.empty-state__text { font-size: 1.1rem; color: #717171; }
+
+.loading-spinner { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 80px 0; color: #717171; gap: 16px; }
+.spinner { width: 40px; height: 40px; border: 3px solid #ebebeb; border-top-color: #FF385C; border-radius: 50%; animation: spin 0.8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
