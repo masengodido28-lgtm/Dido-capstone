@@ -1,0 +1,77 @@
+/* ── User Reservations Page ─────────────────────────────────────────────── */
+.ures-page { min-height: 100vh; }
+.ures-inner { max-width: 1280px; margin: 0 auto; padding: 32px 24px; }
+.ures-title { font-size: 1.75rem; font-weight: 700; color: #222; margin: 0 0 4px; }
+.ures-sub { font-size: 0.9rem; color: #717171; margin: 0 0 24px; }
+
+.ures-loading {
+  display: flex; flex-direction: column; align-items: center;
+  justify-content: center; height: 60vh; gap: 16px; color: #717171;
+}
+.spinner {
+  width: 40px; height: 40px;
+  border: 3px solid #ebebeb; border-top-color: #FF385C;
+  border-radius: 50%; animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.ures-alert {
+  padding: 12px 16px; border-radius: 8px;
+  font-size: 0.875rem; margin-bottom: 20px;
+}
+.ures-alert--error { background: #fff0f0; border: 1px solid #ffcdd2; color: #c62828; }
+.ures-alert--success { background: #f0fff4; border: 1px solid #c8e6c9; color: #2e7d32; }
+
+.ures-empty {
+  text-align: center; padding: 60px 24px;
+  display: flex; flex-direction: column; align-items: center; gap: 16px; color: #717171;
+}
+.btn-primary {
+  background: #FF385C; color: #fff; border: none; border-radius: 8px;
+  padding: 12px 20px; font-size: 0.9rem; font-weight: 600; cursor: pointer;
+}
+.btn-primary:hover { background: #e0314f; }
+
+.ures-table-wrap {
+  overflow-x: auto; border-radius: 12px;
+  border: 1px solid #ebebeb; box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+.ures-table {
+  width: 100%; border-collapse: collapse;
+  background: #fff; font-size: 0.875rem;
+}
+.ures-table th {
+  background: #fafafa; padding: 14px 16px; text-align: left;
+  font-weight: 600; color: #717171; font-size: 0.8rem;
+  text-transform: uppercase; letter-spacing: 0.4px;
+  border-bottom: 1px solid #ebebeb; white-space: nowrap;
+}
+.ures-table td {
+  padding: 16px; color: #222;
+  border-bottom: 1px solid #f5f5f5; vertical-align: middle;
+}
+.ures-table tr:last-child td { border-bottom: none; }
+.ures-table tr:hover td { background: #fafafa; }
+
+.ures-property { display: flex; flex-direction: column; gap: 2px; }
+.ures-property strong { font-weight: 600; }
+.ures-property span { font-size: 0.8rem; color: #717171; display: flex; align-items: center; gap: 3px; }
+
+.ures-status {
+  display: inline-block; padding: 3px 10px;
+  border-radius: 20px; font-size: 0.75rem;
+  font-weight: 600; text-transform: capitalize;
+}
+.ures-status--confirmed { background: #e8f5e9; color: #2e7d32; }
+.ures-status--pending { background: #fff8e1; color: #f57f17; }
+.ures-status--cancelled { background: #fce4ec; color: #c62828; }
+
+.ures-cancel-btn {
+  display: inline-flex; align-items: center; gap: 4px;
+  background: #fff; color: #e53935; border: 1px solid #ffcdd2;
+  border-radius: 6px; padding: 6px 12px;
+  font-size: 0.8rem; font-weight: 600; cursor: pointer;
+  transition: background 0.15s; font-family: inherit;
+}
+.ures-cancel-btn:hover:not(:disabled) { background: #fff0f0; }
+.ures-cancel-btn:disabled { opacity: 0.5; cursor: not-allowed; }
