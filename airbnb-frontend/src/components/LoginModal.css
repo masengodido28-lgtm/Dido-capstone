@@ -1,0 +1,94 @@
+/* ── Login Modal ─────────────────────────────────────────────────────────── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  animation: fadeIn 0.2s ease;
+}
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+.modal-card {
+  background: #fff;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 480px;
+  padding: 32px;
+  position: relative;
+  animation: slideUp 0.25s ease;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+@keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+.modal-close {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  cursor: pointer;
+  color: #222;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s;
+  line-height: 1;
+}
+.modal-close:hover { background: #f0f0f0; }
+
+.modal-title {
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #222;
+  margin: 0 0 16px;
+}
+.modal-divider { border: none; border-top: 1px solid #ebebeb; margin: 0 0 20px; }
+.modal-welcome {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #222;
+  margin: 0 0 20px;
+}
+.modal-error {
+  background: #fff0f0;
+  border: 1px solid #ffcdd2;
+  color: #c62828;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 0.875rem;
+  margin-bottom: 16px;
+}
+.modal-hint {
+  text-align: center;
+  font-size: 0.8rem;
+  color: #999;
+  margin-top: 16px;
+}
+
+/* Shared form styles */
+.form-group { margin-bottom: 16px; }
+.form-label { display: block; font-size: 0.875rem; font-weight: 600; color: #222; margin-bottom: 6px; }
+.form-input {
+  width: 100%; padding: 12px 14px;
+  border: 1px solid #ddd; border-radius: 8px;
+  font-size: 0.9rem; color: #222;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  box-sizing: border-box; background: #fafafa;
+}
+.form-input:focus { outline: none; border-color: #FF385C; box-shadow: 0 0 0 3px rgba(255,56,92,0.12); background: #fff; }
+.form-input--error { border-color: #e53935; }
+.form-error { display: block; font-size: 0.78rem; color: #e53935; margin-top: 4px; }
+.btn-primary { background: #FF385C; color: #fff; border: none; border-radius: 8px; padding: 14px 20px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: background 0.15s; }
+.btn-primary:hover:not(:disabled) { background: #e0314f; }
+.btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
+.btn-full { width: 100%; display: block; }
