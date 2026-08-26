@@ -1,0 +1,116 @@
+/* ── Login Page ─────────────────────────────────────────────────────────── */
+.login-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #fff0f3 0%, #ffe4e8 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.login-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 32px rgba(0,0,0,0.10);
+  padding: 40px 36px;
+  width: 100%;
+  max-width: 420px;
+}
+
+.login-card__header { text-align: center; margin-bottom: 28px; }
+.login-card__logo { width: 48px; height: 48px; margin-bottom: 12px; }
+.login-card__title { font-size: 1.5rem; font-weight: 700; color: #222; margin: 0 0 6px; }
+.login-card__subtitle { font-size: 0.9rem; color: #717171; margin: 0; }
+
+.login-card__error-banner {
+  background: #fff0f0;
+  border: 1px solid #ffcdd2;
+  color: #c62828;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 0.875rem;
+  margin-bottom: 16px;
+}
+
+.login-card__hint {
+  text-align: center;
+  font-size: 0.8rem;
+  color: #999;
+  margin-top: 20px;
+}
+
+/* Shared form styles (used across dashboard pages) */
+.form-group { margin-bottom: 20px; }
+.form-label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #222;
+  margin-bottom: 6px;
+}
+.form-input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  color: #222;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  box-sizing: border-box;
+  background: #fafafa;
+}
+.form-input:focus {
+  outline: none;
+  border-color: #FF385C;
+  box-shadow: 0 0 0 3px rgba(255,56,92,0.12);
+  background: #fff;
+}
+.form-input--error { border-color: #e53935; }
+.form-error {
+  display: block;
+  font-size: 0.78rem;
+  color: #e53935;
+  margin-top: 4px;
+}
+
+.btn-primary {
+  background: #FF385C;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 20px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.1s;
+}
+.btn-primary:hover:not(:disabled) { background: #e0314f; }
+.btn-primary:active:not(:disabled) { transform: scale(0.98); }
+.btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
+.btn-full { width: 100%; }
+
+.btn-secondary {
+  background: #fff;
+  color: #222;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px 18px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-secondary:hover { background: #f7f7f7; }
+
+.btn-danger {
+  background: #fff;
+  color: #e53935;
+  border: 1px solid #ffcdd2;
+  border-radius: 8px;
+  padding: 10px 18px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-danger:hover { background: #fff0f0; }
