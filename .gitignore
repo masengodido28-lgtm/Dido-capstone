@@ -1,0 +1,24 @@
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Build output
+build/
+**/build/
+dist/
+
+# Environment variables — never commit secrets
+.env
+**/.env
+.env.local
+.env.production
+
+# Uploaded files (runtime-generated)
+backend/uploads/*
+!backend/uploads/.gitkeep
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+*.log
