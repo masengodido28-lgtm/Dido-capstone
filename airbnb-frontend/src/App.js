@@ -8,6 +8,7 @@ import LocationPage from './pages/LocationPage';
 import LocationDetailsPage from './pages/LocationDetailsPage';
 import UserReservationsPage from './pages/UserReservationsPage';
 import './App.css';
+import SignupModal from './components/SignupModal';
 
 /**
  * App — root component for the Airbnb Frontend Clone.
@@ -20,16 +21,29 @@ import './App.css';
  */
 const App = () => {
   const [showLogin, setShowLogin] = useState(false);
+  const [showSignup, setShowSignup] = useState(false);
 
   return (
     <AuthProvider>
       <Router>
         {/* Top Header — sticky, includes filter + profile */}
-        <TopHeader onLoginClick={() => setShowLogin(true)} />
+   <TopHeader
+  onLoginClick={() => setShowLogin(true)}
+  onSignupClick={() => setShowSignup(true)}
+/>
 
         {/* Login Modal — rendered at root level so it overlays everything */}
-        {showLogin && <LoginModal onClose={() => setShowLogin(false)} />}
+      {showLogin && (
+  <LoginModal
+    onClose={() => setShowLogin(false)}
+  />
+)}
 
+{showSignup && (
+  <SignupModal
+    onClose={() => setShowSignup(false)}
+  />
+)}
         <main>
           <Routes>
             <Route path="/" element={<HomePage />} />

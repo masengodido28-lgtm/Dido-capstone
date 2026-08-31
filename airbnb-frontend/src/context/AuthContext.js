@@ -35,6 +35,29 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+const register = async (username, email, password) => {
+  try {
+    const { data } = await axios.post('/api/users/register', {
+      username,
+      email,
+      password
+    });
+
+    setUser(data);
+
+    localStorage.setItem('airbnbUser', JSON.stringify(data));
+    localStorage.setItem('airbnbToken', data.token);
+
+    axios.defaults.headers.common['Authorization'] = `Bearer ${data.token}`;
+
+    return { success: true };
+  } catch (err) {
+    return {
+      success: false,
+      message: err.response?.data?.message || 'Registration failed.'
+    };
+  }
+};  
   const logout = () => {
     setUser(null);
     localStorage.removeItem('airbnbUser');
@@ -43,7 +66,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, logout }}>
+  <AuthContext.Provider value={{ user, loading, login, register, logout }}>
       {children}
     </AuthContext.Provider>
   );
