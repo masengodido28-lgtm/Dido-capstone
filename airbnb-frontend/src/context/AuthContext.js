@@ -1,5 +1,5 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
-import axios from 'axios';
+import api from '../api/axiosConfig';
 
 /**
  * AuthContext for the Airbnb Frontend.
@@ -17,18 +17,18 @@ export const AuthProvider = ({ children }) => {
     const storedToken = localStorage.getItem('airbnbToken');
     if (storedUser && storedToken) {
       setUser(JSON.parse(storedUser));
-      axios.defaults.headers.common['Authorization'] = `Bearer ${storedToken}`;
+      api.defaults.headers.common['Authorization'] = `Bearer ${storedToken}`;
     }
     setLoading(false);
   }, []);
 
   const login = async (email, password) => {
     try {
-      const { data } = await axios.post('/api/users/login', { email, password });
+      const { data } = await api.post('/api/users/login', { email, password });
       setUser(data);
       localStorage.setItem('airbnbUser', JSON.stringify(data));
       localStorage.setItem('airbnbToken', data.token);
-      axios.defaults.headers.common['Authorization'] = `Bearer ${data.token}`;
+      api.defaults.headers.common['Authorization'] = `Bearer ${data.token}`;
       return { success: true };
     } catch (err) {
       return { success: false, message: err.response?.data?.message || 'Login failed.' };
@@ -37,7 +37,7 @@ export const AuthProvider = ({ children }) => {
 
 const register = async (username, email, password) => {
   try {
-    const { data } = await axios.post('/api/users/register', {
+    const { data } = await api.post('/api/users/register', {
       username,
       email,
       password
@@ -48,7 +48,7 @@ const register = async (username, email, password) => {
     localStorage.setItem('airbnbUser', JSON.stringify(data));
     localStorage.setItem('airbnbToken', data.token);
 
-    axios.defaults.headers.common['Authorization'] = `Bearer ${data.token}`;
+    api.defaults.headers.common['Authorization'] = `Bearer ${data.token}`;
 
     return { success: true };
   } catch (err) {
@@ -62,7 +62,7 @@ const register = async (username, email, password) => {
     setUser(null);
     localStorage.removeItem('airbnbUser');
     localStorage.removeItem('airbnbToken');
-    delete axios.defaults.headers.common['Authorization'];
+    delete api.defaults.headers.common['Authorization'];
   };
 
   return (

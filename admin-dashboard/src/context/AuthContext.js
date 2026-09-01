@@ -1,5 +1,5 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
-import axios from 'axios';
+import api from '../api/axiosConfig';
 
 /**
  * AuthContext — global authentication state for the Admin Dashboard.
@@ -19,7 +19,7 @@ export const AuthProvider = ({ children }) => {
     if (storedUser && storedToken) {
       setUser(JSON.parse(storedUser));
       setToken(storedToken);
-      axios.defaults.headers.common['Authorization'] = `Bearer ${storedToken}`;
+      api.defaults.headers.common['Authorization'] = `Bearer ${storedToken}`;
     }
     setLoading(false);
   }, []);
@@ -30,12 +30,12 @@ export const AuthProvider = ({ children }) => {
    */
   const login = async (email, password) => {
     try {
-      const { data } = await axios.post('/api/users/login', { email, password });
+      const { data } = await api.post('/api/users/login', { email, password });
       setUser(data);
       setToken(data.token);
       localStorage.setItem('adminUser', JSON.stringify(data));
       localStorage.setItem('adminToken', data.token);
-      axios.defaults.headers.common['Authorization'] = `Bearer ${data.token}`;
+      api.defaults.headers.common['Authorization'] = `Bearer ${data.token}`;
       return { success: true };
     } catch (err) {
       const message =
@@ -50,7 +50,7 @@ export const AuthProvider = ({ children }) => {
     setToken(null);
     localStorage.removeItem('adminUser');
     localStorage.removeItem('adminToken');
-    delete axios.defaults.headers.common['Authorization'];
+    delete api.defaults.headers.common['Authorization'];
   };
 
   return (

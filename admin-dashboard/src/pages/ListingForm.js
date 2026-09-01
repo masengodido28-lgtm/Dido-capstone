@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import axios from 'axios';
+import api from '../api/axiosConfig';
 import './ListingForm.css';
 
 /**
@@ -49,7 +49,7 @@ const ListingForm = ({ mode }) => {
     if (!isEdit) return;
     const fetchListing = async () => {
       try {
-        const { data } = await axios.get(`/api/accommodations/${id}`);
+        const { data } = await api.get(`/api/accommodations/${id}`);
         setFormData({
           title: data.title || '',
           location: data.location || '',
@@ -140,11 +140,11 @@ const ListingForm = ({ mode }) => {
       images.forEach((file) => data.append('images', file));
 
       if (isEdit) {
-        await axios.put(`/api/accommodations/${id}`, data, {
+        await api.put(`/api/accommodations/${id}`, data, {
           headers: { 'Content-Type': 'multipart/form-data' },
         });
       } else {
-        await axios.post('/api/accommodations', data, {
+        await api.post('/api/accommodations', data, {
           headers: { 'Content-Type': 'multipart/form-data' },
         });
       }

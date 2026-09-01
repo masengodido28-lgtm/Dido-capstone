@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import axios from 'axios';
+import api from '../api/axiosConfig';
 import { FaTrash, FaCalendarAlt, FaUsers, FaDollarSign } from 'react-icons/fa';
 import './ReservationsPage.css';
 
@@ -19,7 +19,7 @@ const ReservationsPage = () => {
     try {
       setLoading(true);
       setError('');
-      const { data } = await axios.get('/api/reservations/host');
+      const { data } = await api.get('/api/reservations/host');
       setReservations(data.data);
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to load reservations.');
@@ -36,7 +36,7 @@ const ReservationsPage = () => {
     if (!window.confirm('Cancel this reservation? This cannot be undone.')) return;
     setDeletingId(id);
     try {
-      await axios.delete(`/api/reservations/${id}`);
+      await api.delete(`/api/reservations/${id}`);
       setReservations((prev) => prev.filter((r) => r._id !== id));
       setSuccessMsg('Reservation cancelled successfully.');
       setTimeout(() => setSuccessMsg(''), 4000);

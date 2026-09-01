@@ -9,7 +9,7 @@ import {
 } from 'react-icons/fa';
 import { accommodations } from '../data/accommodations';
 import { useAuth } from '../context/AuthContext';
-import axios from 'axios';
+import api from '../api/axiosConfig';
 import Footer from '../components/Footer';
 import './LocationDetailsPage.css';
 
@@ -54,7 +54,7 @@ const LocationDetailsPage = () => {
       setListing(found);
     } else {
       // Fallback: fetch from backend
-      axios.get(`/api/accommodations/${id}`)
+      api.get(`/api/accommodations/${id}`)
         .then(({ data }) => setListing(data))
         .catch(() => setListing(null));
     }
@@ -94,7 +94,7 @@ const LocationDetailsPage = () => {
     setReservationMsg('');
 
     try {
-      await axios.post('/api/reservations', {
+      await api.post('/api/reservations', {
         accommodationId: listing._id,
         checkIn: checkIn.toISOString(),
         checkOut: checkOut.toISOString(),

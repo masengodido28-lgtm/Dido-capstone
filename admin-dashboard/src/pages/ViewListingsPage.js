@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api from '../api/axiosConfig';
 import { FaEdit, FaTrash, FaStar, FaMapMarkerAlt, FaBed, FaBath, FaUsers } from 'react-icons/fa';
 import './ViewListingsPage.css';
 
@@ -21,7 +21,7 @@ const ViewListingsPage = () => {
     try {
       setLoading(true);
       setError('');
-      const { data } = await axios.get('/api/accommodations');
+      const { data } = await api.get('/api/accommodations');
       setListings(data.data);
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to load listings. Is the backend running?');
@@ -40,7 +40,7 @@ const ViewListingsPage = () => {
 
     setDeletingId(id);
     try {
-      await axios.delete(`/api/accommodations/${id}`);
+      await api.delete(`/api/accommodations/${id}`);
       setListings((prev) => prev.filter((l) => l._id !== id));
       setSuccessMsg(`"${title}" deleted successfully.`);
       setTimeout(() => setSuccessMsg(''), 4000);

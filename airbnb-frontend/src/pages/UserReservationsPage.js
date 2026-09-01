@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api from '../api/axiosConfig';
 import { FaCalendarAlt, FaMapMarkerAlt, FaTrash } from 'react-icons/fa';
 import { useAuth } from '../context/AuthContext';
 import Footer from '../components/Footer';
@@ -24,7 +24,7 @@ const UserReservationsPage = () => {
     if (!user) { navigate('/'); return; }
     const fetchReservations = async () => {
       try {
-        const { data } = await axios.get('/api/reservations/user');
+        const { data } = await api.get('/api/reservations/user');
         setReservations(data.data);
       } catch (err) {
         setError(err.response?.data?.message || 'Failed to load reservations.');
@@ -39,7 +39,7 @@ const UserReservationsPage = () => {
     if (!window.confirm('Cancel this reservation?')) return;
     setDeletingId(id);
     try {
-      await axios.delete(`/api/reservations/${id}`);
+      await api.delete(`/api/reservations/${id}`);
       setReservations((prev) => prev.filter((r) => r._id !== id));
       setSuccessMsg('Reservation cancelled.');
       setTimeout(() => setSuccessMsg(''), 4000);
