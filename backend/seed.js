@@ -1,42 +1,49 @@
 /**
- * seed.js — Populates MongoDB with sample data for development/testing.
- * Run with: node seed.js
- * Creates 2 users (admin + host) and 6 sample accommodation listings.
+ * seed.js — Populates MongoDB with sample accommodation listings.
+ *
+ * Run with:
+ * node seed.js
+ *
+ * This version:
+ * - Keeps existing users
+ * - Clears existing accommodations
+ * - Creates 6 accommodation listings
+ * - Connects each listing to the existing host user
  */
+
+const dns = require('dns');
+
+dns.setServers(['8.8.8.8']);
 
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
+
 const User = require('./models/User');
 const Accommodation = require('./models/Accommodation');
 
 dotenv.config();
 
-const users = [
-  {
-    username: 'Admin User',
-    email: 'admin@airbnb.com',
-    password: 'password123',
-    role: 'admin',
-  },
-  {
-    username: 'Jane Doe',
-    email: 'jane@airbnb.com',
-    password: 'password321',
-    role: 'host',
-  },
-];
+/* ============================================================
+   ACCOMMODATION DATA
+============================================================ */
 
 const accommodations = [
   {
     title: 'Modern Apartment in New York',
     location: 'New York',
-    description: 'Stay in the heart of New York City in this beautiful modern apartment.',
+    description:
+      'Stay in the heart of New York City in this beautiful modern apartment.',
     type: 'Entire apartment',
     price: 320,
     bedrooms: 2,
     bathrooms: 2,
     guests: 4,
-    amenities: ['wifi', 'kitchen', 'free parking', 'air conditioning'],
+    amenities: [
+      'wifi',
+      'kitchen',
+      'free parking',
+      'air conditioning',
+    ],
     images: ['/uploads/placeholder-ny.jpg'],
     weeklyDiscount: 10,
     cleaningFee: 50,
@@ -47,18 +54,31 @@ const accommodations = [
     host: 'Jane Doe',
     enhancedCleaning: true,
     selfCheckIn: true,
-    specificRatings: { cleanliness: 4.8, communication: 4.7, checkIn: 4.9, accuracy: 4.6, location: 4.9, value: 4.5 },
+    specificRatings: {
+      cleanliness: 4.8,
+      communication: 4.7,
+      checkIn: 4.9,
+      accuracy: 4.6,
+      location: 4.9,
+      value: 4.5,
+    },
   },
+
   {
     title: 'Cosy Cottage in Cape Town',
     location: 'Cape Town',
-    description: 'A beautiful cosy cottage with stunning mountain views.',
+    description:
+      'A beautiful cosy cottage with stunning mountain views.',
     type: 'Cottage',
     price: 180,
     bedrooms: 1,
     bathrooms: 1,
     guests: 2,
-    amenities: ['wifi', 'pool', 'ocean view'],
+    amenities: [
+      'wifi',
+      'pool',
+      'ocean view',
+    ],
     images: ['/uploads/placeholder-ct.jpg'],
     weeklyDiscount: 5,
     cleaningFee: 30,
@@ -69,18 +89,33 @@ const accommodations = [
     host: 'Jane Doe',
     enhancedCleaning: false,
     selfCheckIn: true,
-    specificRatings: { cleanliness: 4.9, communication: 4.8, checkIn: 5.0, accuracy: 4.7, location: 4.8, value: 4.7 },
+    specificRatings: {
+      cleanliness: 4.9,
+      communication: 4.8,
+      checkIn: 5.0,
+      accuracy: 4.7,
+      location: 4.8,
+      value: 4.7,
+    },
   },
+
   {
     title: 'Luxury Villa in Paris',
     location: 'Paris',
-    description: 'Experience Paris like royalty in this stunning luxury villa.',
+    description:
+      'Experience Paris like royalty in this stunning luxury villa.',
     type: 'Villa',
     price: 550,
     bedrooms: 4,
     bathrooms: 3,
     guests: 8,
-    amenities: ['wifi', 'pool', 'gym', 'kitchen', 'balcony'],
+    amenities: [
+      'wifi',
+      'pool',
+      'gym',
+      'kitchen',
+      'balcony',
+    ],
     images: ['/uploads/placeholder-paris.jpg'],
     weeklyDiscount: 15,
     cleaningFee: 100,
@@ -91,18 +126,32 @@ const accommodations = [
     host: 'Jane Doe',
     enhancedCleaning: true,
     selfCheckIn: false,
-    specificRatings: { cleanliness: 5.0, communication: 4.9, checkIn: 4.8, accuracy: 5.0, location: 4.9, value: 4.6 },
+    specificRatings: {
+      cleanliness: 5.0,
+      communication: 4.9,
+      checkIn: 4.8,
+      accuracy: 5.0,
+      location: 4.9,
+      value: 4.6,
+    },
   },
+
   {
     title: 'Beach House in Durban',
     location: 'Durban',
-    description: 'Wake up to the sound of waves in this stunning beachfront house.',
+    description:
+      'Wake up to the sound of waves in this stunning beachfront house.',
     type: 'Entire house',
     price: 240,
     bedrooms: 3,
     bathrooms: 2,
     guests: 6,
-    amenities: ['wifi', 'beach access', 'barbecue', 'parking'],
+    amenities: [
+      'wifi',
+      'beach access',
+      'barbecue',
+      'parking',
+    ],
     images: ['/uploads/placeholder-durban.jpg'],
     weeklyDiscount: 8,
     cleaningFee: 60,
@@ -113,18 +162,31 @@ const accommodations = [
     host: 'Jane Doe',
     enhancedCleaning: true,
     selfCheckIn: true,
-    specificRatings: { cleanliness: 4.7, communication: 4.6, checkIn: 4.8, accuracy: 4.5, location: 5.0, value: 4.6 },
+    specificRatings: {
+      cleanliness: 4.7,
+      communication: 4.6,
+      checkIn: 4.8,
+      accuracy: 4.5,
+      location: 5.0,
+      value: 4.6,
+    },
   },
+
   {
     title: 'Private Room in London',
     location: 'London',
-    description: 'A comfortable private room in a vibrant London neighbourhood.',
+    description:
+      'A comfortable private room in a vibrant London neighbourhood.',
     type: 'Private room',
     price: 95,
     bedrooms: 1,
     bathrooms: 1,
     guests: 2,
-    amenities: ['wifi', 'shared kitchen', 'tube nearby'],
+    amenities: [
+      'wifi',
+      'shared kitchen',
+      'tube nearby',
+    ],
     images: ['/uploads/placeholder-london.jpg'],
     weeklyDiscount: 0,
     cleaningFee: 20,
@@ -135,18 +197,32 @@ const accommodations = [
     host: 'Jane Doe',
     enhancedCleaning: false,
     selfCheckIn: true,
-    specificRatings: { cleanliness: 4.4, communication: 4.5, checkIn: 4.3, accuracy: 4.2, location: 4.8, value: 4.5 },
+    specificRatings: {
+      cleanliness: 4.4,
+      communication: 4.5,
+      checkIn: 4.3,
+      accuracy: 4.2,
+      location: 4.8,
+      value: 4.5,
+    },
   },
+
   {
     title: 'Mountain Cabin in Johannesburg',
     location: 'Johannesburg',
-    description: 'Escape the city in this peaceful mountain cabin just outside Joburg.',
+    description:
+      'Escape the city in this peaceful mountain cabin just outside Joburg.',
     type: 'Cabin',
     price: 150,
     bedrooms: 2,
     bathrooms: 1,
     guests: 4,
-    amenities: ['wifi', 'fireplace', 'hiking trails', 'parking'],
+    amenities: [
+      'wifi',
+      'fireplace',
+      'hiking trails',
+      'parking',
+    ],
     images: ['/uploads/placeholder-jhb.jpg'],
     weeklyDiscount: 12,
     cleaningFee: 40,
@@ -157,43 +233,86 @@ const accommodations = [
     host: 'Jane Doe',
     enhancedCleaning: false,
     selfCheckIn: true,
-    specificRatings: { cleanliness: 4.8, communication: 4.7, checkIn: 4.9, accuracy: 4.6, location: 4.5, value: 4.8 },
+    specificRatings: {
+      cleanliness: 4.8,
+      communication: 4.7,
+      checkIn: 4.9,
+      accuracy: 4.6,
+      location: 4.5,
+      value: 4.8,
+    },
   },
 ];
 
+/* ============================================================
+   SEED DATABASE
+============================================================ */
+
 const seedDB = async () => {
   try {
+    /* Connect to MongoDB */
     await mongoose.connect(process.env.MONGO_URI);
-    console.log('✅  Connected to MongoDB for seeding');
 
-    // Clear existing data
-    await User.deleteMany({});
+    console.log('✅ Connected to MongoDB for seeding');
+
+    /* ========================================================
+       CLEAR ONLY ACCOMMODATIONS
+
+       We deliberately DO NOT delete users.
+    ======================================================== */
+
     await Accommodation.deleteMany({});
-    console.log('🗑️   Cleared existing users and accommodations');
 
-    // Insert users (password hashing handled by pre-save hook)
-    const createdUsers = await User.create(users);
-    console.log(`👤  Created ${createdUsers.length} users`);
+    console.log('🗑️ Cleared existing accommodations');
 
-    // Attach host_id to accommodations
-    const host = createdUsers.find((u) => u.role === 'host');
+    /* ========================================================
+       FIND EXISTING HOST
+    ======================================================== */
+
+    const host = await User.findOne({ role: 'host' });
+
+    if (!host) {
+      throw new Error(
+        'No host user found. Please create a host user first.'
+      );
+    }
+
+    console.log(`👤 Using existing host: ${host.username}`);
+
+    /* ========================================================
+       ATTACH HOST ID TO EACH LISTING
+    ======================================================== */
+
     const accommodationsWithHost = accommodations.map((acc) => ({
       ...acc,
       host_id: host._id,
     }));
 
-    await Accommodation.create(accommodationsWithHost);
-    console.log(`🏠  Created ${accommodations.length} accommodation listings`);
+    /* ========================================================
+       CREATE ACCOMMODATIONS
+    ======================================================== */
 
-    console.log('\n✅  Seed complete!');
-    console.log('   Admin login: admin@airbnb.com / password123');
-    console.log('   Host login:  jane@airbnb.com  / password321');
+    await Accommodation.create(accommodationsWithHost);
+
+    console.log(
+      `🏠 Created ${accommodations.length} accommodation listings`
+    );
+
+    /* ========================================================
+       SUCCESS
+    ======================================================== */
+
+    console.log('\n✅ Seed complete!');
+    console.log('🏠 Your accommodation listings are now in MongoDB');
 
     process.exit(0);
+
   } catch (err) {
-    console.error('❌  Seed error:', err.message);
+    console.error('❌ Seed error:', err.message);
+
     process.exit(1);
   }
 };
 
+/* Run the seed */
 seedDB();

@@ -7,7 +7,7 @@ import {
   FaShieldAlt, FaKey, FaBroom, FaWifi, FaParking, FaSwimmingPool,
   FaUtensils, FaDumbbell, FaFireExtinguisher,
 } from 'react-icons/fa';
-import { accommodations } from '../data/accommodations';
+
 import { useAuth } from '../context/AuthContext';
 import api from '../api/axiosConfig';
 import Footer from '../components/Footer';
@@ -47,18 +47,21 @@ const LocationDetailsPage = () => {
   const [reservationError, setReservationError] = useState('');
   const [activeImg, setActiveImg] = useState(0);
 
-  useEffect(() => {
-    // Try static data first; backend would be called here in production
-    const found = accommodations.find((a) => a._id === id);
-    if (found) {
-      setListing(found);
-    } else {
-      // Fallback: fetch from backend
-      api.get(`/api/accommodations/${id}`)
-        .then(({ data }) => setListing(data))
-        .catch(() => setListing(null));
+useEffect(() => {
+  const fetchListing = async () => {
+    try {
+      const { data } = await api.get(`/api/accommodations/${id}`);
+      setListing(data);
+    } catch (err) {
+      console.error('Failed to fetch accommodation:', err);
+      setListing(null);
     }
-  }, [id]);
+  };
+
+  if (id) {
+    fetchListing();
+  }
+}, [id]);
 
   // ── Cost calculation ──────────────────────────────────────────────────────
   const totalNights = checkIn && checkOut

@@ -27,12 +27,10 @@ const app = express();
 // ─── Middleware ───────────────────────────────────────────────────────────────
 
 // CORS — allow requests from the React frontends (ports 3000 and 3001)
-app.use(
-  cors({
-    origin: ['http://localhost:3000', 'http://localhost:3001'],
-    credentials: true,
-  })
-);
+app.use(cors({
+  origin: true,
+  credentials: true
+}));
 
 // Parse incoming JSON bodies
 app.use(express.json());
