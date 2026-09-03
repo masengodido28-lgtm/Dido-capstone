@@ -4,9 +4,10 @@ const {
   createReservation,
   getReservationsByHost,
   getReservationsByUser,
+  getAllReservations,
   deleteReservation,
 } = require('../controllers/reservationController');
-const { protect } = require('../middleware/auth');
+const { protect, adminOnly } = require('../middleware/auth');
 
 const router = express.Router();
 
@@ -22,6 +23,9 @@ const reservationValidation = [
 
 // POST /api/reservations
 router.post('/', protect, reservationValidation, createReservation);
+
+// GET /api/reservations/all  (admin — all reservations)
+router.get('/all', protect, adminOnly, getAllReservations);
 
 // GET /api/reservations/host
 router.get('/host', protect, getReservationsByHost);
