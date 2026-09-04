@@ -528,35 +528,6 @@ const deleteReservation = async (
 
 
 /* =====================================================
-   GET ALL RESERVATIONS (admin only)
-
-   GET /api/reservations/all
-   Protected route — admin role required
-   ===================================================== */
-
-const getAllReservations = async (req, res) => {
-  try {
-    if (!req.user || !req.user._id) {
-      return res.status(401).json({ message: 'Not authorised' });
-    }
-
-    const reservations = await Reservation.find({})
-      .populate('accommodation', 'title location price images type')
-      .populate('user', 'username email')
-      .sort({ createdAt: -1 });
-
-    return res.status(200).json({
-      count: reservations.length,
-      data: reservations,
-    });
-  } catch (err) {
-    console.error('getAllReservations error:', err);
-    return res.status(500).json({ message: 'Server error fetching all reservations' });
-  }
-};
-
-
-/* =====================================================
    EXPORT CONTROLLERS
    ===================================================== */
 
@@ -564,6 +535,5 @@ module.exports = {
   createReservation,
   getReservationsByHost,
   getReservationsByUser,
-  getAllReservations,
   deleteReservation,
 };

@@ -10,7 +10,7 @@ import axios from 'axios';
  * production without changing code — just set it in .env.production.
  */
 const api = axios.create({
-  baseURL: process.env.REACT_APP_API_URL || 'http://localhost:5000',
+ baseURL: process.env.REACT_APP_API_URL || 'https://dido-capstone.onrender.com',
   withCredentials: true,
 });
 

@@ -774,66 +774,58 @@ const LocationDetailsPage = () => {
 
 
   /* =====================================================
-     RESERVATION STATE
+     RESERVATION
      ===================================================== */
 
-  const [reserving, setReserving] = useState(false);
-  const [reserveError, setReserveError] = useState('');
-  const [reserveSuccess, setReserveSuccess] = useState('');
+  const handleReserve = () => {
 
-  /* =====================================================
-     RESERVATION — calls the backend API
-     ===================================================== */
-
-  const handleReserve = async () => {
-
-    // Must be logged in
     if (!user) {
-      setReserveError('Please log in to make a reservation.');
+
+      navigate('/login');
+
       return;
+
     }
 
-    // Dates must be selected
+
     if (!startDate || !endDate) {
-      setReserveError('Please select your check-in and check-out dates.');
+
+      alert(
+        'Please select your check-in and check-out dates.'
+      );
+
       return;
+
     }
+
 
     if (nights <= 0) {
-      setReserveError('Check-out must be after check-in.');
+
+      alert(
+        'Please select valid dates.'
+      );
+
       return;
+
     }
+
 
     if (guests < 1) {
-      setReserveError('Please select at least one guest.');
+
+      alert(
+        'Please select at least one guest.'
+      );
+
       return;
+
     }
 
-    setReserving(true);
-    setReserveError('');
-    setReserveSuccess('');
 
-    try {
-      await api.post('/api/reservations', {
-        accommodationId: listing._id,
-        checkIn: startDate.toISOString(),
-        checkOut: endDate.toISOString(),
-        guests,
-      });
-
-      setReserveSuccess(
-        `Reservation confirmed for ${nights} night${nights > 1 ? 's' : ''}! Total: $${total.toFixed(2)}`
-      );
-      // Reset dates so user sees a clean form
-      setStartDate(null);
-      setEndDate(null);
-    } catch (err) {
-      setReserveError(
-        err.response?.data?.message || 'Reservation failed. Please try again.'
-      );
-    } finally {
-      setReserving(false);
-    }
+    alert(
+      `Reservation request for ${nights} night${
+        nights > 1 ? 's' : ''
+      }.`
+    );
 
   };
 
@@ -1623,23 +1615,11 @@ const LocationDetailsPage = () => {
               <button
                 className="details-reserve-btn"
                 onClick={handleReserve}
-                disabled={reserving}
-                aria-busy={reserving}
               >
-                {reserving ? 'Reserving…' : 'Reserve'}
-              </button>
 
-              {/* Feedback messages */}
-              {reserveError && (
-                <p className="details-reserve-error" role="alert">
-                  {reserveError}
-                </p>
-              )}
-              {reserveSuccess && (
-                <p className="details-reserve-success" role="status">
-                  {reserveSuccess}
-                </p>
-              )}
+                Reserve
+
+              </button>
 
 
               <p className="details-booking__note">

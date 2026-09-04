@@ -69,8 +69,10 @@ const ViewListingsPage = () => {
   const imgSrc = (listing) => {
     if (!listing.images || listing.images.length === 0) return null;
     const img = listing.images[0];
-    return img.startsWith('http') ? img : `http://localhost:5000${img}`;
-  };
+    
+ return img.startsWith('http')
+  ? img
+  : `${process.env.REACT_APP_API_URL || 'https://dido-capstone.onrender.com'}${img}`;}
 
   return (
     <div className="page-container">

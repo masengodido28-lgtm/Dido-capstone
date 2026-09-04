@@ -7,7 +7,7 @@ import axios from 'axios';
  * regardless of whether the admin dashboard runs on 3000 or 3001.
  */
 const api = axios.create({
-  baseURL: process.env.REACT_APP_API_URL || 'http://localhost:5000',
+baseURL: process.env.REACT_APP_API_URL || 'https://dido-capstone.onrender.com',
   withCredentials: true,
 });
 

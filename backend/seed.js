@@ -1,3 +1,4 @@
+
 /**
  * seed.js — Populates MongoDB with sample accommodation listings.
  *
@@ -8,11 +9,11 @@
  * - Keeps existing users
  * - Clears existing accommodations
  * - Creates 6 accommodation listings
+ * - Uses online image URLs
  * - Connects each listing to the existing host user
  */
 
 const dns = require('dns');
-
 dns.setServers(['8.8.8.8']);
 
 const mongoose = require('mongoose');
@@ -38,22 +39,32 @@ const accommodations = [
     bedrooms: 2,
     bathrooms: 2,
     guests: 4,
+
     amenities: [
       'wifi',
       'kitchen',
       'free parking',
       'air conditioning',
     ],
-    images: ['/uploads/placeholder-ny.jpg'],
+
+    // ONLINE IMAGE
+    images: [
+      'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1200&q=80',
+    ],
+
     weeklyDiscount: 10,
     cleaningFee: 50,
     serviceFee: 50,
     occupancyTaxes: 30,
+
     rating: 4.5,
     reviews: 320,
+
     host: 'Jane Doe',
+
     enhancedCleaning: true,
     selfCheckIn: true,
+
     specificRatings: {
       cleanliness: 4.8,
       communication: 4.7,
@@ -74,21 +85,31 @@ const accommodations = [
     bedrooms: 1,
     bathrooms: 1,
     guests: 2,
+
     amenities: [
       'wifi',
       'pool',
       'ocean view',
     ],
-    images: ['/uploads/placeholder-ct.jpg'],
+
+    // ONLINE IMAGE
+    images: [
+      'https://images.unsplash.com/photo-1449158743715-0a90ebb6d2d8?auto=format&fit=crop&w=1200&q=80',
+    ],
+
     weeklyDiscount: 5,
     cleaningFee: 30,
     serviceFee: 25,
     occupancyTaxes: 15,
+
     rating: 4.8,
     reviews: 156,
+
     host: 'Jane Doe',
+
     enhancedCleaning: false,
     selfCheckIn: true,
+
     specificRatings: {
       cleanliness: 4.9,
       communication: 4.8,
@@ -109,6 +130,7 @@ const accommodations = [
     bedrooms: 4,
     bathrooms: 3,
     guests: 8,
+
     amenities: [
       'wifi',
       'pool',
@@ -116,16 +138,25 @@ const accommodations = [
       'kitchen',
       'balcony',
     ],
-    images: ['/uploads/placeholder-paris.jpg'],
+
+    // ONLINE IMAGE
+    images: [
+      'https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1200&q=80',
+    ],
+
     weeklyDiscount: 15,
     cleaningFee: 100,
     serviceFee: 80,
     occupancyTaxes: 60,
+
     rating: 4.9,
     reviews: 89,
+
     host: 'Jane Doe',
+
     enhancedCleaning: true,
     selfCheckIn: false,
+
     specificRatings: {
       cleanliness: 5.0,
       communication: 4.9,
@@ -146,22 +177,32 @@ const accommodations = [
     bedrooms: 3,
     bathrooms: 2,
     guests: 6,
+
     amenities: [
       'wifi',
       'beach access',
       'barbecue',
       'parking',
     ],
-    images: ['/uploads/placeholder-durban.jpg'],
+
+    // ONLINE IMAGE
+    images: [
+      'https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?auto=format&fit=crop&w=1200&q=80',
+    ],
+
     weeklyDiscount: 8,
     cleaningFee: 60,
     serviceFee: 40,
     occupancyTaxes: 25,
+
     rating: 4.6,
     reviews: 203,
+
     host: 'Jane Doe',
+
     enhancedCleaning: true,
     selfCheckIn: true,
+
     specificRatings: {
       cleanliness: 4.7,
       communication: 4.6,
@@ -182,21 +223,31 @@ const accommodations = [
     bedrooms: 1,
     bathrooms: 1,
     guests: 2,
+
     amenities: [
       'wifi',
       'shared kitchen',
       'tube nearby',
     ],
-    images: ['/uploads/placeholder-london.jpg'],
+
+    // ONLINE IMAGE
+    images: [
+      'https://images.unsplash.com/photo-1560185008-b033106af5c3?auto=format&fit=crop&w=1200&q=80',
+    ],
+
     weeklyDiscount: 0,
     cleaningFee: 20,
     serviceFee: 15,
     occupancyTaxes: 10,
+
     rating: 4.3,
     reviews: 411,
+
     host: 'Jane Doe',
+
     enhancedCleaning: false,
     selfCheckIn: true,
+
     specificRatings: {
       cleanliness: 4.4,
       communication: 4.5,
@@ -217,22 +268,32 @@ const accommodations = [
     bedrooms: 2,
     bathrooms: 1,
     guests: 4,
+
     amenities: [
       'wifi',
       'fireplace',
       'hiking trails',
       'parking',
     ],
-    images: ['/uploads/placeholder-jhb.jpg'],
+
+    // ONLINE IMAGE
+    images: [
+      'https://images.unsplash.com/photo-1510798831971-661eb04b3739?auto=format&fit=crop&w=1200&q=80',
+    ],
+
     weeklyDiscount: 12,
     cleaningFee: 40,
     serviceFee: 30,
     occupancyTaxes: 20,
+
     rating: 4.7,
     reviews: 78,
+
     host: 'Jane Doe',
+
     enhancedCleaning: false,
     selfCheckIn: true,
+
     specificRatings: {
       cleanliness: 4.8,
       communication: 4.7,
@@ -263,7 +324,7 @@ const seedDB = async () => {
 
     await Accommodation.deleteMany({});
 
-    console.log('🗑️ Cleared existing accommodations');
+ console.log('🗑️ Cleared existing accommodations');
 
     /* ========================================================
        FIND EXISTING HOST
@@ -304,15 +365,15 @@ const seedDB = async () => {
 
     console.log('\n✅ Seed complete!');
     console.log('🏠 Your accommodation listings are now in MongoDB');
+    console.log('🖼️ Images are using online URLs');
 
     process.exit(0);
-
   } catch (err) {
     console.error('❌ Seed error:', err.message);
-
     process.exit(1);
   }
 };
 
 /* Run the seed */
 seedDB();
+

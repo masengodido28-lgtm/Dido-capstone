@@ -40,10 +40,7 @@ const UserReservationsPage = () => {
     setDeletingId(id);
     try {
       await api.delete(`/api/reservations/${id}`);
-      // Backend soft-deletes (sets status to 'cancelled'), so update state in place
-      setReservations((prev) =>
-        prev.map((r) => r._id === id ? { ...r, status: 'cancelled' } : r)
-      );
+      setReservations((prev) => prev.filter((r) => r._id !== id));
       setSuccessMsg('Reservation cancelled.');
       setTimeout(() => setSuccessMsg(''), 4000);
     } catch (err) {

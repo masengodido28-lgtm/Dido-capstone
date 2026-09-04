@@ -312,7 +312,7 @@ const ListingForm = ({ mode }) => {
                 {existingImages.map((img, i) => (
                   <img
                     key={i}
-                    src={img.startsWith('http') ? img : `http://localhost:5000${img}`}
+                   src={img.startsWith('http') ? img : `${process.env.REACT_APP_API_URL || 'https://dido-capstone.onrender.com'}${img}`}
                     alt={`Listing ${i + 1}`}
                     className="lf-existing__thumb"
                     onError={e => { e.target.style.display = 'none'; }}
