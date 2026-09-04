@@ -4,9 +4,10 @@ const {
   createReservation,
   getReservationsByHost,
   getReservationsByUser,
+  getAllReservations,
   deleteReservation,
 } = require('../controllers/reservationController');
-const { protect } = require('../middleware/auth');
+const { protect, adminOnly } = require('../middleware/auth');
 
 const router = express.Router();
 
@@ -23,10 +24,13 @@ const reservationValidation = [
 // POST /api/reservations
 router.post('/', protect, reservationValidation, createReservation);
 
-// GET /api/reservations/host
+// GET /api/reservations/all  — admin sees every reservation
+router.get('/all', protect, adminOnly, getAllReservations);
+
+// GET /api/reservations/host  — host sees their property bookings
 router.get('/host', protect, getReservationsByHost);
 
-// GET /api/reservations/user
+// GET /api/reservations/user  — user sees their own bookings
 router.get('/user', protect, getReservationsByUser);
 
 // DELETE /api/reservations/:id
