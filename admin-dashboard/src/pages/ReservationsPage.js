@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import api from '../api/axiosConfig';
+import { useAuth } from '../context/AuthContext';
 import { FaTrash, FaSearch, FaCalendarAlt, FaMapMarkerAlt } from 'react-icons/fa';
 import './ReservationsPage.css';
 
@@ -9,6 +10,7 @@ import './ReservationsPage.css';
  * Includes live search filter.
  */
 const ReservationsPage = () => {
+  const { user } = useAuth();
   const [reservations, setReservations] = useState([]);
   const [filtered, setFiltered] = useState([]);
   const [search, setSearch] = useState('');
@@ -21,7 +23,11 @@ const ReservationsPage = () => {
     try {
       setLoading(true);
       setError('');
-      const { data } = await api.get('/api/reservations/host');
+      // Admin sees ALL reservations; host sees only their property bookings
+      const endpoint = user?.role === 'admin'
+        ? '/api/reservations/all'
+        : '/api/reservations/host';
+      const { data } = await api.get(endpoint);
       setReservations(data.data);
       setFiltered(data.data);
     } catch (err) {
@@ -29,7 +35,7 @@ const ReservationsPage = () => {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [user]);
 
   useEffect(() => { fetchReservations(); }, [fetchReservations]);
 
@@ -51,7 +57,10 @@ const ReservationsPage = () => {
     setDeletingId(id);
     try {
       await api.delete(`/api/reservations/${id}`);
-      setReservations(prev => prev.filter(r => r._id !== id));
+      // Backend soft-cancels (status → 'cancelled'), so update in place
+      setReservations(prev =>
+        prev.map(r => r._id === id ? { ...r, status: 'cancelled' } : r)
+      );
       setSuccessMsg('Reservation cancelled successfully.');
       setTimeout(() => setSuccessMsg(''), 4000);
     } catch (err) {
