@@ -342,14 +342,16 @@ const TopHeader = ({ onLoginClick, onSignupClick }) => {
                       My Reservations
                     </button>
 
-                    {/* Admin Dashboard */}
-                    <button
-                      className="top-header__dropdown-item"
-                      role="menuitem"
-                      onClick={handleAdminDashboard}
-                    >
-                      Admin Dashboard
-                    </button>
+                    {/* Admin Dashboard — only visible to admins */}
+                    {user.role === 'admin' && (
+                      <button
+                        className="top-header__dropdown-item"
+                        role="menuitem"
+                        onClick={handleAdminDashboard}
+                      >
+                        Admin Dashboard
+                      </button>
+                    )}
 
                     <hr className="top-header__dropdown-divider" />
 
@@ -397,3 +399,4 @@ const TopHeader = ({ onLoginClick, onSignupClick }) => {
 };
 
 export default TopHeader;
+
