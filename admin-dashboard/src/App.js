@@ -1,4 +1,3 @@
-
 import React from 'react';
 
 import {
@@ -29,8 +28,8 @@ import './App.css';
 /**
  * AppLayout — renders the sidebar + main content area side by side.
  *
- * The sidebar is only shown when the logged-in user
- * is an administrator.
+ * The sidebar is shown when a user is logged in.
+ * Admin permissions are handled by the backend.
  */
 const AppLayout = ({ children }) => {
   const { user } = useAuth();
@@ -38,12 +37,10 @@ const AppLayout = ({ children }) => {
   return (
     <div
       className={`app-layout ${
-        user?.role === 'admin'
-          ? 'app-layout--with-sidebar'
-          : ''
+        user ? 'app-layout--with-sidebar' : ''
       }`}
     >
-      {user?.role === 'admin' && <Sidebar />}
+      {user && <Sidebar />}
 
       <main className="app-main">
         {children}
