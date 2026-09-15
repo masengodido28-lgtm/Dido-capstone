@@ -5,7 +5,7 @@ import { useAuth } from '../context/AuthContext';
 const PrivateRoute = ({ children }) => {
   const { user, loading } = useAuth();
 
-  // Wait until authentication has loaded
+  // Wait for authentication to load
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -15,7 +15,22 @@ const PrivateRoute = ({ children }) => {
     return <Navigate to="/login" replace />;
   }
 
-  // Logged in — allow access
+  // Logged in but NOT an admin
+  if (user.role !== 'admin') {
+    return (
+      <div
+        style={{
+          padding: '40px',
+          textAlign: 'center'
+        }}
+      >
+        <h2>Access Denied</h2>
+        <p>You do not have permission to access the Admin Dashboard.</p>
+      </div>
+    );
+  }
+
+  // User is an admin
   return children;
 };
 
