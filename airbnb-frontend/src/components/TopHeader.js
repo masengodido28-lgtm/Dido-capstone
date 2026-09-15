@@ -1,3 +1,4 @@
+
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
@@ -13,8 +14,9 @@ import './TopHeader.css';
  * Pressing Enter or clicking a suggestion navigates to that location page.
  *
  * Profile section: login/signup dropdown when logged out,
- * username + reservations/logout when logged in.
+ * username + reservations/admin dashboard/logout when logged in.
  */
+
 const TopHeader = ({ onLoginClick, onSignupClick }) => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
@@ -24,7 +26,7 @@ const TopHeader = ({ onLoginClick, onSignupClick }) => {
   const [suggestions, setSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
-  const [activeIdx, setActiveIdx] = useState(-1);   // keyboard nav
+  const [activeIdx, setActiveIdx] = useState(-1);
 
   const inputRef = useRef(null);
   const wrapRef = useRef(null);
@@ -37,32 +39,42 @@ const TopHeader = ({ onLoginClick, onSignupClick }) => {
         setActiveIdx(-1);
       }
     };
+
     document.addEventListener('mousedown', handler);
+
     return () => document.removeEventListener('mousedown', handler);
   }, []);
 
   // Close profile dropdown on outside click
   useEffect(() => {
     const handler = (e) => {
-      if (!e.target.closest('.top-header__profile')) setProfileOpen(false);
+      if (!e.target.closest('.top-header__profile')) {
+        setProfileOpen(false);
+      }
     };
+
     document.addEventListener('mousedown', handler);
+
     return () => document.removeEventListener('mousedown', handler);
   }, []);
 
   // Filter suggestions as the user types
   const handleQueryChange = (e) => {
     const val = e.target.value;
+
     setQuery(val);
     setActiveIdx(-1);
+
     if (val.trim().length === 0) {
       setSuggestions([]);
       setShowSuggestions(false);
       return;
     }
-    const matched = locations.filter(loc =>
+
+    const matched = locations.filter((loc) =>
       loc.toLowerCase().includes(val.toLowerCase())
     );
+
     setSuggestions(matched);
     setShowSuggestions(matched.length > 0);
   };
@@ -70,13 +82,18 @@ const TopHeader = ({ onLoginClick, onSignupClick }) => {
   // Navigate on submit
   const handleSubmit = (e) => {
     e.preventDefault();
-    const dest = activeIdx >= 0 ? suggestions[activeIdx] : query.trim();
+
+    const dest =
+      activeIdx >= 0 ? suggestions[activeIdx] : query.trim();
+
     if (dest) {
       navigate(`/location/${encodeURIComponent(dest)}`);
+
       setQuery('');
       setSuggestions([]);
       setShowSuggestions(false);
       setActiveIdx(-1);
+
       inputRef.current?.blur();
     }
   };
@@ -84,6 +101,7 @@ const TopHeader = ({ onLoginClick, onSignupClick }) => {
   // Pick a suggestion
   const handleSuggestionClick = (loc) => {
     navigate(`/location/${encodeURIComponent(loc)}`);
+
     setQuery('');
     setSuggestions([]);
     setShowSuggestions(false);
@@ -93,12 +111,15 @@ const TopHeader = ({ onLoginClick, onSignupClick }) => {
   // Keyboard navigation inside the suggestion list
   const handleKeyDown = (e) => {
     if (!showSuggestions) return;
+
     if (e.key === 'ArrowDown') {
       e.preventDefault();
-      setActiveIdx(i => Math.min(i + 1, suggestions.length - 1));
+      setActiveIdx((i) =>
+        Math.min(i + 1, suggestions.length - 1)
+      );
     } else if (e.key === 'ArrowUp') {
       e.preventDefault();
-      setActiveIdx(i => Math.max(i - 1, -1));
+      setActiveIdx((i) => Math.max(i - 1, -1));
     } else if (e.key === 'Escape') {
       setShowSuggestions(false);
       setActiveIdx(-1);
@@ -111,10 +132,20 @@ const TopHeader = ({ onLoginClick, onSignupClick }) => {
     navigate('/');
   };
 
+  // Open the admin dashboard
+  const handleAdminDashboard = () => {
+    window.location.href =
+      'https://dido-airbnb-admin.onrender.com';
+  };
+
   const isHome = location.pathname === '/';
 
   return (
-    <header className={`top-header ${isHome ? 'top-header--home' : ''}`}>
+    <header
+      className={`top-header ${
+        isHome ? 'top-header--home' : ''
+      }`}
+    >
       <div className="top-header__inner">
 
         {/* ── Logo ── */}
@@ -123,25 +154,45 @@ const TopHeader = ({ onLoginClick, onSignupClick }) => {
           onClick={() => navigate('/')}
           aria-label="Go to home"
         >
-          <svg viewBox="0 0 32 32" className="top-header__logo-svg" aria-hidden="true">
+          <svg
+            viewBox="0 0 32 32"
+            className="top-header__logo-svg"
+            aria-hidden="true"
+          >
             <path
-              d="M16 1C7.716 1 1 7.716 1 16s6.716 15 15 15 15-6.716 15-15S24.284 1 16 1zm-.002 4.65c.9 0 1.63.73 1.63 1.63S16.898 8.91 16 8.91s-1.63-.73-1.63-1.63.73-1.63 1.628-1.63zM22 22.25H10a.75.75 0 010-1.5h1.5v-5H11a.75.75 0 010-1.5h4a.75.75 0 010 1.5h-.5v5h2v-6.25H16a.75.75 0 010-1.5h4a.75.75 0 010 1.5h-.5V20.75H21a.75.75 0 010 1.5z"
+              d="M16 1C7.716 1 1 7.716 1 16s6.716 15 15 15S31 24.284 31 16 24.284 1 16 1zm-.002 4.65c.9 0 1.63.73 1.63 1.63S16.898 8.91 16 8.91s-1.63-.73-1.63-1.63.73-1.63 1.628-1.63zM22 22.25H10a.75.75 0 010-1.5h1.5v-5H11a.75.75 0 010-1.5h4a.75.75 0 010 1.5h-.5v5h2v-6.25H16a.75.75 0 010-1.5h4a.75.75 0 010 1.5h-.5V20.75H21a.75.75 0 010 1.5z"
               fill="#FF385C"
             />
           </svg>
-          <span className="top-header__logo-text">airbnb</span>
+
+          <span className="top-header__logo-text">
+            airbnb
+          </span>
         </button>
 
         {/* ── Search ── */}
-        <div className="top-header__search-wrap" ref={wrapRef}>
+        <div
+          className="top-header__search-wrap"
+          ref={wrapRef}
+        >
           <form
             className="top-header__search"
             onSubmit={handleSubmit}
             role="search"
             aria-label="Search locations"
           >
-            <div className={`top-header__search-inner ${showSuggestions ? 'top-header__search-inner--open' : ''}`}>
-              <FaSearch size={14} className="top-header__search-icon" aria-hidden="true" />
+            <div
+              className={`top-header__search-inner ${
+                showSuggestions
+                  ? 'top-header__search-inner--open'
+                  : ''
+              }`}
+            >
+              <FaSearch
+                size={14}
+                className="top-header__search-icon"
+                aria-hidden="true"
+              />
 
               <input
                 ref={inputRef}
@@ -149,7 +200,12 @@ const TopHeader = ({ onLoginClick, onSignupClick }) => {
                 value={query}
                 onChange={handleQueryChange}
                 onKeyDown={handleKeyDown}
-                onFocus={() => query.trim() && setShowSuggestions(suggestions.length > 0)}
+                onFocus={() =>
+                  query.trim() &&
+                  setShowSuggestions(
+                    suggestions.length > 0
+                  )
+                }
                 placeholder="Search destinations…"
                 className="top-header__search-input"
                 aria-label="Search destinations"
@@ -163,7 +219,12 @@ const TopHeader = ({ onLoginClick, onSignupClick }) => {
                 <button
                   type="button"
                   className="top-header__search-clear"
-                  onClick={() => { setQuery(''); setSuggestions([]); setShowSuggestions(false); inputRef.current?.focus(); }}
+                  onClick={() => {
+                    setQuery('');
+                    setSuggestions([]);
+                    setShowSuggestions(false);
+                    inputRef.current?.focus();
+                  }}
                   aria-label="Clear search"
                 >
                   <FaTimes size={12} />
@@ -192,21 +253,43 @@ const TopHeader = ({ onLoginClick, onSignupClick }) => {
                   key={loc}
                   role="option"
                   aria-selected={idx === activeIdx}
-                  className={`top-header__suggestion ${idx === activeIdx ? 'top-header__suggestion--active' : ''}`}
-                  onMouseDown={() => handleSuggestionClick(loc)}
+                  className={`top-header__suggestion ${
+                    idx === activeIdx
+                      ? 'top-header__suggestion--active'
+                      : ''
+                  }`}
+                  onMouseDown={() =>
+                    handleSuggestionClick(loc)
+                  }
                 >
-                  <FaSearch size={11} className="top-header__suggestion-icon" />
+                  <FaSearch
+                    size={11}
+                    className="top-header__suggestion-icon"
+                    aria-hidden="true"
+                  />
+
                   {/* Highlight the matching part */}
                   <span>
                     {(() => {
                       const q = query.toLowerCase();
-                      const start = loc.toLowerCase().indexOf(q);
+                      const start = loc
+                        .toLowerCase()
+                        .indexOf(q);
+
                       if (start === -1) return loc;
+
                       return (
                         <>
                           {loc.slice(0, start)}
-                          <strong>{loc.slice(start, start + query.length)}</strong>
-                          {loc.slice(start + query.length)}
+                          <strong>
+                            {loc.slice(
+                              start,
+                              start + query.length
+                            )}
+                          </strong>
+                          {loc.slice(
+                            start + query.length
+                          )}
                         </>
                       );
                     })()}
@@ -220,32 +303,56 @@ const TopHeader = ({ onLoginClick, onSignupClick }) => {
         {/* ── Profile ── */}
         <div className="top-header__profile">
           <div className="top-header__user-menu">
+
             <button
               className="top-header__user-btn"
-              onClick={() => setProfileOpen(p => !p)}
+              onClick={() =>
+                setProfileOpen((p) => !p)
+              }
               aria-haspopup="true"
               aria-expanded={profileOpen}
               aria-label="Profile menu"
             >
               <FaBars size={14} />
-              <FaUserCircle size={28} color="#717171" />
+              <FaUserCircle
+                size={28}
+                color="#717171"
+              />
             </button>
 
             {profileOpen && (
-              <div className="top-header__dropdown" role="menu">
+              <div
+                className="top-header__dropdown"
+                role="menu"
+              >
                 {user ? (
                   <>
                     <span className="top-header__dropdown-greeting">
                       Hi, {user.username}
                     </span>
+
                     <button
                       className="top-header__dropdown-item"
                       role="menuitem"
-                      onClick={() => { navigate('/reservations'); setProfileOpen(false); }}
+                      onClick={() => {
+                        navigate('/reservations');
+                        setProfileOpen(false);
+                      }}
                     >
                       My Reservations
                     </button>
+
+                    {/* Admin Dashboard */}
+                    <button
+                      className="top-header__dropdown-item"
+                      role="menuitem"
+                      onClick={handleAdminDashboard}
+                    >
+                      Admin Dashboard
+                    </button>
+
                     <hr className="top-header__dropdown-divider" />
+
                     <button
                       className="top-header__dropdown-item top-header__dropdown-item--logout"
                       role="menuitem"
@@ -259,14 +366,21 @@ const TopHeader = ({ onLoginClick, onSignupClick }) => {
                     <button
                       className="top-header__dropdown-item top-header__dropdown-item--bold"
                       role="menuitem"
-                      onClick={() => { onLoginClick?.(); setProfileOpen(false); }}
+                      onClick={() => {
+                        onLoginClick?.();
+                        setProfileOpen(false);
+                      }}
                     >
                       Log In
                     </button>
+
                     <button
                       className="top-header__dropdown-item"
                       role="menuitem"
-                      onClick={() => { onSignupClick?.(); setProfileOpen(false); }}
+                      onClick={() => {
+                        onSignupClick?.();
+                        setProfileOpen(false);
+                      }}
                     >
                       Sign Up
                     </button>
